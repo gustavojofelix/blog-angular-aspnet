@@ -9,5 +9,6 @@ namespace CodePulse.API.Repositories.Interface
         Task<Category?> GetCategoryById(Guid id);
 
         Task<Category?> UpdateAsync(Category category);
+        Task<Category?> DeleteAsync(Guid id);
     }
 }
