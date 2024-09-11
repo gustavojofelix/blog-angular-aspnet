@@ -21,9 +21,46 @@ namespace CodePulse.API.Repositories.Implementation
             return blogPost;
         }
 
+        public async Task<BlogPost> DeleteAsync(Guid id)
+        {
+           var existingBlogPost = await dbContext.BlogPosts.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (existingBlogPost != null)
+            {
+                dbContext.BlogPosts.Remove(existingBlogPost);
+                await dbContext.SaveChangesAsync();
+                return existingBlogPost;
+            }
+
+            return null;
+        }
+
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
           return  await dbContext.BlogPosts.Include(x => x.Categories).ToListAsync();
+        }
+
+        public async Task<BlogPost> GetBlogPostBIdAsync(Guid id)
+        {
+            return await dbContext.BlogPosts.Include(x => x.Categories).FirstOrDefaultAsync( b => b.Id == id);
+        }
+
+        public async Task<BlogPost> UpdateAsync(BlogPost blogPost)
+        {
+           var exisitingBlogPost = await dbContext.BlogPosts.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == blogPost.Id);
+
+            if (exisitingBlogPost == null)
+            {
+                return null;
+            }
+
+            dbContext.Entry(exisitingBlogPost).CurrentValues.SetValues(blogPost);
+
+            exisitingBlogPost.Categories = blogPost.Categories;
+
+            dbContext.SaveChanges();
+
+            return blogPost;
         }
     }
 }

@@ -116,9 +116,10 @@
       </div>
 
       <div class="mt-3">
-        <label for="categories" class="form-label"></label>
         <ng-container *ngIf="categories$ | async as categories">
+          <label for="categories" class="form-label">Categories</label>
           <select
+            title=""
             [(ngModel)]="model.categories"
             class="form-control"
             name="categories"
