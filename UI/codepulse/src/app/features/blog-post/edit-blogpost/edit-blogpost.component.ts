@@ -20,8 +20,9 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
   deleteBlogPostSubscription?: Subscription;
   model?: BlogPost;
   categories$?: Observable<Category[]>;
-
   selectedCategories?: string[];
+  isImageSelectorVisible: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private blogPostService: BlogPostService,
@@ -82,6 +83,14 @@ export class EditBlogpostComponent implements OnInit, OnDestroy {
           },
         });
     }
+  }
+
+  openImageSelector(): void {
+    this.isImageSelectorVisible = true;
+  }
+
+  closeImageSelector(): void {
+    this.isImageSelectorVisible = false;
   }
 
   ngOnDestroy(): void {
